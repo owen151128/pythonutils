@@ -3,6 +3,7 @@
 from pyfiglet import Figlet
 
 import time
+import argparse
 
 
 class EntryDescription:
@@ -21,6 +22,14 @@ class EntryDescription:
 def main():
     entry_description = EntryDescription('Apks to Apk', 'v0.0.1', '-i absolute_apks_dir -o absolute_path.apk')
     entry_description.print_entry_description()
+
+    arg_parser = argparse.ArgumentParser(description=entry_description.version_name, epilog=entry_description.example_message)
+    arg_parser.add_argument('-i', metavar='absolute_apks_dir', required=True, help='apks dir path')
+    arg_parser.add_argument('-o', metavar='merge_apk_path', required=True, help='merge apk path')
+    args = arg_parser.parse_args()
+
+    print('i : ' + args.i)
+    print('b : ' + args.o)
 
 
 if __name__ == '__main__':
