@@ -5,6 +5,16 @@ from pyfiglet import Figlet
 import time
 import argparse
 
+class Constants:
+    def __setattr__(self, key, value):
+        if key in self.__dict__:
+            raise ValueError('Constants can\'t be re-assigned!')
+        self.__dict__[key] = value
+
+    def __delattr__(self, item):
+        if item in self.__dict__:
+            raise ValueError('Constants can\' be removed!')
+
 
 class EntryDescription:
     def __init__(self, application_name, version_name, example_message):
