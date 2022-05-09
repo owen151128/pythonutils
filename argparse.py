@@ -16,6 +16,9 @@ class Constants:
             raise ValueError('Constants can\' be removed!')
 
 
+constants: Constants = Constants()
+
+
 class EntryDescription:
     def __init__(self, application_name, version_name, example_message):
         self.application_name = application_name
@@ -30,16 +33,28 @@ class EntryDescription:
 
 
 def main():
-    entry_description = EntryDescription('Apks to Apk', 'v0.0.1', '-i absolute_apks_dir -o absolute_path.apk')
-    entry_description.print_entry_description()
+    global constants
+    constants.APP = 'Trading View BackTest'
+    constants.VERSION = 'v0.0.1'
+    constants.KEY_OPTION = '-k'
+    constants.INPUT_OPTION = '-i'
+    constants.KEY_OPTION_META = 'binance_api_keys yaml file path'
+    constants.INPUT_OPTION_META = 'Trading view transaction history csv file path'
 
-    arg_parser = argparse.ArgumentParser(description=entry_description.version_name, epilog=entry_description.example_message)
-    arg_parser.add_argument('-i', metavar='absolute_apks_dir', required=True, help='apks dir path')
-    arg_parser.add_argument('-o', metavar='merge_apk_path', required=True, help='merge apk path')
+    entry_description = EntryDescription(constants.APP, constants.VERSION,
+                                         f'{constants.KEY_OPTION} [{constants.KEY_OPTION_META}] '
+                                         f'{constants.INPUT_OPTION} [{constants.INPUT_OPTION_META}]')
+    entry_description.print_entry_description()
+    arg_parser = argparse.ArgumentParser(description=entry_description.version_name,
+                                         epilog=entry_description.example_message)
+    arg_parser.add_argument(constants.KEY_OPTION, metavar=f'[{constants.KEY_OPTION_META}]', required=True,
+                            help=constants.KEY_OPTION_META.replace('_', ''))
+    arg_parser.add_argument(constants.INPUT_OPTION, metavar=f'[{constants.INPUT_OPTION_META}]', required=True,
+                            help=constants.INPUT_OPTION_META.replace('_', ''))
     args = arg_parser.parse_args()
 
+    print('k : ' + args.k)
     print('i : ' + args.i)
-    print('b : ' + args.o)
 
 
 if __name__ == '__main__':
